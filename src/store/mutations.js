@@ -1,7 +1,13 @@
 const mutations = {
-  authenticate: (state, args) => {
-    console.log(args);
+  // AUTH
+  authenticate: (state, { authData }) => {
+    console.log(authData);
+    state.authData = authData;
+  },
+  // PRODUCTS
+  getProducts: (state, { productData }) => {
+    state.productData = productData;
   },
 };
 
-export default mutations
+export default mutations;

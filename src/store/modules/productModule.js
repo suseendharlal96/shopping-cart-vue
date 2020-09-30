@@ -2,13 +2,13 @@ import getters from "../getters";
 import mutations from "../mutations";
 import actions from "../actions";
 
-const authModule = {
+const productModule = {
   state: () => ({
-    authData: null,
+    productData: null,
   }),
   getters,
   mutations,
   actions,
 };
 
-export default authModule;
+export default productModule;

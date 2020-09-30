@@ -32,14 +32,13 @@
 </template>
 
 <script>
-import { inject, reactive, ref } from "vue";
+import { inject, reactive, ref, computed } from "vue";
 import axios from "axios";
-
-import { router } from "../route/route";
 
 export default {
   setup() {
     const store = inject("$store");
+    const router = inject("$router");
     const form = reactive({
       email: "",
       password: "",
@@ -57,15 +56,19 @@ export default {
         url = "signup";
       }
       store.dispatch("auth/authenticate", { form, url });
-      //   router.push("/");
+      router.push("/");
       console.log(form);
     };
+
+    const authData = computed(() => store.getters["auth/getAuthData"]);
+    console.log(authData.value);
 
     return {
       form,
       isSignup,
       changeMode,
       submitForm,
+      authData,
     };
   },
 };
@@ -99,8 +102,8 @@ label {
 }
 button {
   margin: 2% 2%;
-  width: 20%;
-  padding: 1rem;
+  width: 10%;
+  padding: 0.5rem;
   border-radius: 4px;
 }
 .primary {

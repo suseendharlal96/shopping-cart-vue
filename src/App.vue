@@ -1,22 +1,23 @@
 <template>
-  <!-- <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3.0 + Vite" /> -->
+  <Navbar />
   <router-view />
 </template>
 
 <script>
 import { provide } from "vue";
 
-import HelloWorld from "./components/HelloWorld.vue";
+import Navbar from "./components/Navbar.vue";
 import { store } from "./store/store";
+import { router } from "./route/route";
 
 export default {
   name: "App",
   setup() {
     provide("$store", store);
+    provide("$router", router);
   },
   components: {
-    HelloWorld,
+    Navbar,
   },
 };
 </script>
