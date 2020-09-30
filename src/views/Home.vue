@@ -1,5 +1,7 @@
 <template>
-  <div>Home</div>
+  <div v-if="authData">
+    <button data-tooltip="create product">+</button>
+  </div>
   <div
     v-if="productData && productData.paginationInfo"
     class="pagination-container"
@@ -42,7 +44,7 @@
   </div>
   <template v-if="!loading">
     <template v-if="productData && productData.paginationInfo">
-      <div class="product-container">
+      <div class="products-container">
         <template v-for="product in productData.products" :key="product._id">
           <Product :product="product" />
         </template>
@@ -92,6 +94,7 @@ export default {
       currentLimit,
       productData,
       setPage,
+      authData,
       loading,
     };
   },
@@ -102,7 +105,7 @@ export default {
 </script>
 
 <style scoped>
-.product-container,
+.products-container,
 .pagination-container {
   display: flex;
   flex-wrap: wrap;
@@ -112,6 +115,9 @@ export default {
 }
 .pagination-container {
   margin: 0 10px;
+}
+.pagination-container > .pages {
+  margin-bottom: 10px;
 }
 button {
   margin: 0 5px;
@@ -129,5 +135,21 @@ button:disabled {
   content: "Items per page";
   margin-right: 5px;
   /* position: absolute; */
+}
+
+[data-tooltip] {
+  position: relative;
+  background-color: rgb(68, 0, 255);
+}
+
+[data-tooltip]:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  border: 1px solid black;
+  top: -1rem;
+  left: 36px;
+  background-color: rgb(68, 0, 255);
+  padding: 0.5rem;
+  color: #ffffff;
 }
 </style>

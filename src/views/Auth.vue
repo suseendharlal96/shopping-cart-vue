@@ -1,26 +1,50 @@
 <template>
   <div class="auth-form">
     <form @submit="submitForm">
-      <div class="flex-item-1">
+      <div>
         <label for="email" required>Email</label>
         <input
-          class="form-control"
+          :class="[
+            (errors && errors.email) || (errors && errors.error) ? 'error' : '',
+            'form-control',
+          ]"
           type="text"
           name="email"
           id="email"
-          v-model="form.email"
+          v-model.lazy.trim="form.email"
         />
       </div>
-      <div class="flex-item-2">
+      <p v-if="errors && errors.email" class="invalid">{{ errors.email }}</p>
+      <div>
         <label for="password" required>Password</label>
         <input
-          class="form-control"
+          :class="[errors && errors.password ? 'error' : '', 'form-control']"
           type="password"
           name="password"
           id="password"
-          v-model="form.password"
+          v-model.lazy.trim="form.password"
         />
       </div>
+      <p v-if="errors && errors.password" class="invalid">
+        {{ errors.password }}
+      </p>
+      <template v-if="isSignup">
+        <div>
+          <label for="confirmpassword" required>Confirm Password</label>
+          <input
+            :class="[isInValid ? 'invalid' : '', 'form-control']"
+            type="password"
+            name="confirmpassword"
+            :disabled="form.password === ''"
+            id="confirmpassword"
+            v-model.trim="form.confirmpassword"
+          />
+        </div>
+        <p v-if="isInValid" class="invalid">Passwords do not match</p>
+      </template>
+      <p v-if="errors && errors.error" class="invalid">
+        {{ isSignup ? errors.error : "Invalid credentials" }}
+      </p>
       <button
         :disabled="loading"
         class="secondary"
@@ -55,11 +79,20 @@ export default {
     const form = reactive({
       email: "",
       password: "",
+      confirmpassword: "",
     });
     const isSignup = ref(false);
+    // const errors = ref(null);
 
     const changeMode = () => {
       isSignup.value = !isSignup.value;
+      form.confirmpassword = "";
+      if (form.password !== "") {
+        form.password = "";
+      }
+      // if (errors.value) {
+      //   errors.value = null;
+      // }
     };
 
     const submitForm = (e) => {
@@ -72,10 +105,25 @@ export default {
 
       console.log(form);
     };
-
+    const isInValid = computed(() => {
+      if (isSignup) {
+        if (
+          form.password !== "" &&
+          form.confirmpassword !== "" &&
+          form.password !== form.confirmpassword
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    });
     const authData = computed(() => store.getters["auth/getAuthData"]);
     const loading = computed(() => store.getters["auth/getLoading"]);
-    console.log(authData.value);
+    const errors = computed(() => store.getters["auth/getErrors"]);
+    // console.log(authErrors.value);
+    // errors.value = authErrors.value;
+    // console.log(errors);
 
     return {
       form,
@@ -84,6 +132,8 @@ export default {
       submitForm,
       authData,
       loading,
+      isInValid,
+      errors,
     };
   },
 };
@@ -94,6 +144,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  /* align-items: center; */
   flex-wrap: wrap;
 }
 [required]::after {
@@ -101,38 +152,45 @@ export default {
   color: red;
 }
 .form-control {
-  width: 30%;
+  min-width: 30%;
   padding: 12px 20px;
   margin: 8px 0;
   box-sizing: border-box;
   border: 1px solid #555;
   outline: none;
 }
-.form-control:focus {
+
+div input:not(.invalid):focus {
   background-color: lightblue;
   border: 2px solid lightskyblue;
+}
+.invalid:focus {
+  background-color: salmon;
+}
+.error {
+  background-color: salmon;
 }
 label {
   display: block;
 }
 button {
   margin: 2% 2%;
-  width: 10%;
+  min-width: 10%;
   padding: 0.5rem;
   border-radius: 4px;
+}
+button:hover {
+  background-color: blueviolet;
+}
+.invalid {
+  color: red;
 }
 .primary {
   background-color: #00ff00;
   color: #ffffff;
 }
-.primary:hover {
-  background-color: blueviolet;
-}
 .secondary {
   background-color: #ff0000;
   color: #ffffff;
-}
-.secondary:hover {
-  background-color: blueviolet;
 }
 </style>

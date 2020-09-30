@@ -1,15 +1,17 @@
 <template>
-  <div class="product">
+  <div class="product-container">
     <h3>{{ product.name }}</h3>
     <p class="price">{{ product.price }}</p>
     <img :src="product.image" :alt="product.name" />
     <p>{{ product.description }}</p>
     <div class="btn-container">
-      <template v-if="userId && userId === product.creator">
-        <button class="delete">Delete</button>
-        <button class="edit">Edit</button>
+      <template v-if="authData">
+        <template v-if="userId && userId === product.creators">
+          <button class="delete">Delete</button>
+          <button class="edit">Edit</button>
+        </template>
+        <button class="cart">Add to cart</button>
       </template>
-      <button class="cart">Add to cart</button>
     </div>
   </div>
 </template>
@@ -27,20 +29,17 @@ export default {
     console.log(authData.value);
     userId = authData ? authData.value && authData.value._id : null;
 
-    // watch(store.getters["auth/getAuthData"], () => {
-    //   userId = authData ? authData.value && authData.value._id : null;
-    // });
-
     return {
       product: props.product,
       userId,
+      authData,
     };
   },
 };
 </script>
 
 <style scoped>
-.product {
+.product-container {
   flex-direction: column;
   width: 350px;
   height: 400px;
@@ -48,6 +47,7 @@ export default {
   padding: 10px;
   display: flex;
   flex-wrap: wrap;
+  border-radius: 4px;
   border: 1px solid gray;
   box-shadow: 2px 3px;
 }
@@ -60,7 +60,7 @@ p {
 }
 img {
   margin-bottom: 5px;
-  height: 195px;
+  height: 176px;
 }
 .btn-container {
   display: flex;
@@ -71,7 +71,10 @@ img {
 .btn-container button {
   border-radius: 5px;
   cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
 }
+
 button.delete {
   background-color: #ff0000;
   color: #ffffff;

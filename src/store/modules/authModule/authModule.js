@@ -6,6 +6,7 @@ const authModule = {
   state: () => ({
     authData: null,
     loading: false,
+    errors: null,
   }),
   getters,
   mutations,

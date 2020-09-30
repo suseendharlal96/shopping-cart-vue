@@ -9,6 +9,12 @@ const mutations = {
   loading: (state, loading) => {
     state.loading = loading;
   },
+  errors:(state,errors)=>{
+    state.errors = errors
+  },
+  logout: (state) => {
+    state.authData = null;
+  },
 };
 
 export default mutations;
