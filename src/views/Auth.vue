@@ -21,11 +21,24 @@
           v-model="form.password"
         />
       </div>
-      <button class="secondary" type="button" @click="changeMode">
+      <button
+        :disabled="loading"
+        class="secondary"
+        type="button"
+        @click="changeMode"
+      >
         Switch to {{ isSignup ? "Signin" : "Signup" }}
       </button>
       <button class="primary" type="submit">
-        {{ isSignup ? "Signup" : "Signin" }}
+        {{
+          isSignup
+            ? loading
+              ? "Signingup.."
+              : "Signup"
+            : loading
+            ? "Signingin.."
+            : "Signin"
+        }}
       </button>
     </form>
   </div>
@@ -56,11 +69,12 @@ export default {
         url = "signup";
       }
       store.dispatch("auth/authenticate", { form, url });
-      router.push("/");
+
       console.log(form);
     };
 
     const authData = computed(() => store.getters["auth/getAuthData"]);
+    const loading = computed(() => store.getters["auth/getLoading"]);
     console.log(authData.value);
 
     return {
@@ -69,6 +83,7 @@ export default {
       changeMode,
       submitForm,
       authData,
+      loading,
     };
   },
 };

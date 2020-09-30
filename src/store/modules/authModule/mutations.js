@@ -1,14 +1,12 @@
+import { router } from "../../../route/route";
+
 const mutations = {
-  // AUTH
   authenticate: (state, { authData }) => {
     console.log(authData);
     state.authData = authData;
+    router.push("/");
   },
-  // PRODUCTS
-  getProducts: (state, { productData }) => {
-    state.productData = productData;
-  },
-  loader: (state, loading) => {
+  loading: (state, loading) => {
     state.loading = loading;
   },
 };
