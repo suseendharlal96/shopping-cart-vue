@@ -20,7 +20,8 @@ export default {
   display: flex;
   height: 5%;
   background-color: brown;
-  justify-content: center;
+  justify-content: space-evenly;
+  /* align-items: center; */
   margin-bottom: 2%;
 }
 </style>

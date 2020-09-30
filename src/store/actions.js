@@ -13,6 +13,7 @@ const actions = {
   },
   // PRODUCTS
   getProducts: async ({ commit }, { activePage, currentLimit, token }) => {
+    commit("loader", true);
     const res = await axios.get(
       `${baseURL}/products?page=${activePage}&limit=${currentLimit}`,
       {
@@ -22,6 +23,7 @@ const actions = {
       }
     );
     console.log(res.data);
+    commit("loader", false);
     commit("getProducts", { productData: res.data });
   },
 };

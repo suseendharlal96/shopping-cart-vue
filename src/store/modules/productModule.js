@@ -5,6 +5,7 @@ import actions from "../actions";
 const productModule = {
   state: () => ({
     productData: null,
+    loading: false,
   }),
   getters,
   mutations,
