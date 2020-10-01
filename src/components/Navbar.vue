@@ -1,9 +1,9 @@
 <template>
-  <div class="navbar">
+  <nav class="navbar">
     <button v-if="!authData" @click="router.push('/auth')">Auth</button>
     <button @click="router.push('/')">Home</button>
     <button v-if="authData" @click="logout">Logout</button>
-  </div>
+  </nav>
 </template>
 
 <script>
@@ -29,11 +29,15 @@ export default {
   background-color: brown;
   justify-content: space-evenly;
   padding: 10px 0px;
-  /* align-items: center; */
   margin-bottom: 2%;
 }
 .navbar button {
   cursor: pointer;
   min-width: 5%;
+  color: #ffffff;
+  background-color: #c529c5;
+}
+.navbar button:hover {
+  background-color: #c796c7;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div v-if="authData">
-    <button data-tooltip="create product">+</button>
+    <button data-tooltip="create product" @click="createProduct">+</button>
   </div>
   <div
     v-if="productData && productData.paginationInfo"
@@ -46,26 +46,35 @@
     <template v-if="productData && productData.paginationInfo">
       <div class="products-container">
         <template v-for="product in productData.products" :key="product._id">
-          <Product :product="product" />
+          <Product :product="product" @delproduct="delproduct($event)" />
         </template>
       </div>
     </template>
     <p v-else>No data</p>
   </template>
   <p v-else>Fetching data...</p>
+  <template v-if="isModalOpen">
+    <product-form @cancel="cancel" :delId="delId" :prodName="prodName" />
+  </template>
 </template>
 
 <script>
 import { onMounted, inject, ref, computed, watch } from "vue";
 
 import Product from "../components/Product.vue";
+import ProductForm from "./ProductForm.vue";
+import { useRouter } from "vue-router";
 export default {
   setup() {
     // injected properties
     const store = inject("$store");
+    const router = useRouter();
     // data
     let activePage = ref(1);
     const currentLimit = ref(2);
+    const isModalOpen = ref(false);
+    const delId = ref(null);
+    const prodName = ref(null);
     // computed
     const productData = computed(() => store.getters["product/getProducts"]);
     const loading = computed(() => store.getters["product/getLoading"]);
@@ -80,6 +89,24 @@ export default {
     };
     const setPage = (page) => {
       activePage.value = page;
+    };
+    const createProduct = () => {
+      router.push("/create-product");
+      isModalOpen.value = true;
+    };
+    const delproduct = ({ id, name }) => {
+      console.log(id);
+      delId.value = id;
+      prodName.value = name;
+      router.push(`/delete-product/${id}`);
+      isModalOpen.value = true;
+    };
+    const cancel = () => {
+      isModalOpen.value = false;
+      if (delId.value) {
+        delId.value = null;
+      }
+      router.back();
     };
     // watchers
     watch([currentLimit, activePage], () => {
@@ -96,10 +123,18 @@ export default {
       setPage,
       authData,
       loading,
+      router,
+      isModalOpen,
+      createProduct,
+      delId,
+      prodName,
+      delproduct,
+      cancel,
     };
   },
   components: {
     Product,
+    ProductForm,
   },
 };
 </script>

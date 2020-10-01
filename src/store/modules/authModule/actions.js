@@ -10,7 +10,9 @@ const actions = {
     commit("errors", null);
     try {
       const res = await axios.post(`${baseURL}/user/${url}`, form);
-      commit("authenticate", { authData: res.data.result, url });
+      commit("authenticate", {
+        authData: { ...res.data.result, token: res.data.token },
+      });
     } catch (e) {
       commit("errors", e.response.data);
     }

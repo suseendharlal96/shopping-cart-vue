@@ -17,6 +17,42 @@ const actions = {
     commit("loader", false);
     commit("getProducts", { productData: res.data });
   },
+  createProduct: async ({ commit }, { form, token }) => {
+    console.log(form);
+    commit("loader", true);
+    try {
+      const res = await axios.post(`${baseURL}/products`, form, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(res.data);
+      commit("loader", false);
+      commit("createProduct", { product: res.data.createdProduct });
+    } catch (error) {
+      commit("loader", false);
+      console.log(error.response);
+    }
+  },
+  deleteProduct: async ({ commit }, { delId, token }) => {
+    console.log(delId);
+    commit("loader", true);
+    try {
+      const res = await axios({
+        method: "delete",
+        url: `${baseURL}/products/${delId}`,
+        data: { delId },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      commit("loader", false);
+      commit("deleteProduct", { delId });
+    } catch (e) {
+      console.log(e.response);
+      commit("loader", false);
+    }
+  },
 };
 
 export default actions;

@@ -10,6 +10,7 @@
           ]"
           type="text"
           name="email"
+          autofocus
           id="email"
           v-model.lazy.trim="form.email"
         />
@@ -118,12 +119,12 @@ export default {
         }
       }
     });
+    // Passing args in Getters
+    // const authData = computed(() => store.getters["auth/getAuthData"](args));
+
     const authData = computed(() => store.getters["auth/getAuthData"]);
     const loading = computed(() => store.getters["auth/getLoading"]);
     const errors = computed(() => store.getters["auth/getErrors"]);
-    // console.log(authErrors.value);
-    // errors.value = authErrors.value;
-    // console.log(errors);
 
     return {
       form,
@@ -178,19 +179,30 @@ button {
   min-width: 10%;
   padding: 0.5rem;
   border-radius: 4px;
+  cursor: pointer;
 }
-button:hover {
-  background-color: blueviolet;
+.secondary {
+  background-color: #ff0000;
+  color: #ffffff;
+}
+.secondary:not(:disabled):hover {
+  background: rgba(233, 12, 0, 0.75);
+  color: #ffffff;
 }
 .invalid {
   color: red;
 }
 .primary {
-  background-color: #00ff00;
+  background-color: #065806;
   color: #ffffff;
 }
-.secondary {
-  background-color: #ff0000;
+.primary:hover {
+  background-color: #45c545;
   color: #ffffff;
+}
+button:disabled {
+  cursor: no-drop;
+  background-color: silver;
+  color: #000000;
 }
 </style>

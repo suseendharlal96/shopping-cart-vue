@@ -3,11 +3,20 @@
     <h3>{{ product.name }}</h3>
     <p class="price">{{ product.price }}</p>
     <img :src="product.image" :alt="product.name" />
-    <p>{{ product.description }}</p>
+    <p class="description">{{ product.description }}</p>
     <div class="btn-container">
       <template v-if="authData">
-        <template v-if="userId && userId === product.creators">
-          <button class="delete">Delete</button>
+        <template
+          v-if="userId && userId.toString() === product.creator.toString()"
+        >
+          <button
+            class="delete"
+            @click="
+              $emit('delproduct', { id: product._id, name: product.name })
+            "
+          >
+            Delete
+          </button>
           <button class="edit">Edit</button>
         </template>
         <button class="cart">Add to cart</button>
@@ -17,16 +26,17 @@
 </template>
 
 <script>
-import { computed, inject, ref, watch } from "vue";
+import { computed, inject, ref } from "vue";
+
 export default {
   props: ["product"],
+  emits: ["delproduct"],
   setup(props) {
     const store = inject("$store");
 
     let userId = ref(null);
 
     const authData = computed(() => store.getters["auth/getAuthData"]);
-    console.log(authData.value);
     userId = authData ? authData.value && authData.value._id : null;
 
     return {
@@ -42,11 +52,11 @@ export default {
 .product-container {
   flex-direction: column;
   width: 350px;
-  height: 400px;
   margin: 10px 10px;
   padding: 10px;
   display: flex;
   flex-wrap: wrap;
+  min-height: 325px;
   border-radius: 4px;
   border: 1px solid gray;
   box-shadow: 2px 3px;
@@ -66,7 +76,6 @@ img {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  height: 125px;
 }
 .btn-container button {
   border-radius: 5px;
@@ -74,17 +83,31 @@ img {
   padding: 0.5rem;
   border-radius: 4px;
 }
-
+.description {
+  word-break: break-all;
+}
 button.delete {
   background-color: #ff0000;
   color: #ffffff;
 }
+button.delete:hover {
+  background: rgba(233, 12, 0, 0.75);
+  color: #ffffff;
+}
 button.edit {
-  background-color: #00ffff;
-  color: #000000;
+  background: rgba(0, 0, 135, 0.6);
+  color: #ffffff;
+}
+button.edit:hover {
+  background-color: #7d7dd6;
+  color: #ffffff;
 }
 button.cart {
-  background-color: #00ff00;
+  background-color: rgba(24, 168, 32, 0.6);
+  color: #000000;
+}
+button.cart:hover {
+  background-color: rgba(0, 255, 0, 0.6);
   color: #000000;
 }
 </style>

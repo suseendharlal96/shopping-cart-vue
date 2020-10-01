@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import Home from "../views/Home.vue";
 import Auth from "../views/Auth.vue";
+// import ProductForm from "../views/ProductForm.vue";
 
 const routes = [
   {
@@ -12,6 +13,8 @@ const routes = [
     path: "/",
     component: Home,
   },
+  { path: "/create-product", component: Home },
+  { path: "/delete-product/:delId", component: Home },
   {
     path: "/:pathMatch(.*)*",
     redirect: "/",
