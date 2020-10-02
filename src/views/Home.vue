@@ -57,7 +57,7 @@
     <p v-else>No data.Try to create one😀</p>
   </template>
   <div v-else>
-    <p>Fetching data...🏄‍♂️</p>
+    <p>Fetching current data...⏳</p>
     <template v-if="productData && productData.paginationInfo">
       <div class="products-container">
         <template v-for="product in productData.products" :key="product._id">
@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import { onMounted, inject, ref, computed, watch } from "vue";
+import { onMounted, inject, ref, computed, watch, provide } from "vue";
 
 import Product from "../components/Product.vue";
 import ProductForm from "./ProductForm.vue";
@@ -130,6 +130,10 @@ export default {
       editProduct.value = product;
     };
     const cancel = () => {
+      if (!delId.value) {
+        const answer = window.confirm("Do you really want to leave?");
+        if (!answer) return false;
+      }
       isModalOpen.value = false;
       if (delId.value) {
         delId.value = null;

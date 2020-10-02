@@ -2,7 +2,11 @@
   <nav class="navbar">
     <button v-if="!authData" @click="router.push('/auth')">Auth</button>
     <button @click="router.push('/')">Home</button>
-    <button v-if="authData" @click="logout">Logout</button>
+    <template v-if="authData">
+      <button @click="router.push('/cart')">Cart</button>
+      <button @click="router.push('/orders')">Orders</button>
+      <button @click="logout">Logout</button>
+    </template>
   </nav>
 </template>
 
@@ -14,6 +18,8 @@ export default {
     const store = inject("$store");
 
     const logout = () => {
+      const answer = window.confirm("Do you really want to logout?");
+      if (!answer) return false;
       store.commit("auth/logout");
     };
     const authData = computed(() => store.getters["auth/getAuthData"]);
@@ -31,13 +37,19 @@ export default {
   padding: 10px 0px;
   margin-bottom: 2%;
 }
-.navbar button {
+button {
   cursor: pointer;
   min-width: 5%;
   color: #ffffff;
   background-color: #c529c5;
 }
-.navbar button:hover {
+button:hover {
   background-color: #c796c7;
+}
+.auth-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 5%;
 }
 </style>

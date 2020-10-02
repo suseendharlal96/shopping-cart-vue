@@ -32,7 +32,7 @@ import { computed, inject, ref } from "vue";
 
 export default {
   props: ["product"],
-  emits: ["delproduct", "editproduct"],
+  emits: ["delproduct", "editproduct", "addCart"],
   setup(props) {
     const store = inject("$store");
 
