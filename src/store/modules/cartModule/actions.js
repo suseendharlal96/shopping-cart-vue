@@ -19,6 +19,37 @@ const actions = {
       commit("loading", false);
     }
   },
+  addCart: async (_, { body, token }) => {
+    console.log(body);
+    try {
+      const res = await axios.post(`${baseURL}/user/cart`, body, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(res.data);
+    } catch (e) {
+      console.log(e.response);
+    }
+  },
+  removeCartItem: async ({ commit }, { productId, token }) => {
+    console.log(productId);
+    try {
+      const res = await axios.post(
+        `${baseURL}/user/removeCartItem`,
+        { productId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(res.data);
+      commit("removeCartItem", productId);
+    } catch (e) {
+      console.log(e.response);
+    }
+  },
 };
 
 export default actions;

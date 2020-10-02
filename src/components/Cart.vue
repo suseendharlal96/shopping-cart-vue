@@ -25,20 +25,23 @@
           <button @click="changeQuantity('increase')">+</button>
         </span>
       </div>
-      <button class="remove">Remove</button>
+      <button class="remove" @click="removeCart(mycart._id)">Remove</button>
       <button class="pay">Pay</button>
     </div>
   </div>
 </template>
 
 <script>
-import { computed, ref, watch } from "vue";
+import { computed, ref } from "vue";
+import { useStore } from "vuex";
 
 export default {
   props: ["cart"],
   emits: ["changetotal"],
   setup(props, { emit }) {
     let actualCart = ref({});
+    const store = useStore();
+
     if (props.cart) {
       actualCart.value = { ...props.cart };
     }
@@ -53,9 +56,19 @@ export default {
       actualCart.value.price = props.cart.price * actualCart.value.quantity;
     };
 
+    const authData = computed(() => store.getters["auth/getAuthData"]);
+
+    const removeCart = (productId) => {
+      store.dispatch("cart/removeCartItem", {
+        productId,
+        token: authData.value.token,
+      });
+    };
+
     return {
       mycart: actualCart,
       changeQuantity,
+      removeCart,
     };
   },
 };
@@ -75,7 +88,7 @@ export default {
   width: 350px;
 }
 .cart:hover {
-   box-shadow: 4px 4px;
+  box-shadow: 4px 4px;
 }
 .price::before {
   content: "₹";
@@ -118,5 +131,8 @@ button {
 }
 [disabled] {
   cursor: no-drop;
+}
+img {
+  height: 275px;
 }
 </style>

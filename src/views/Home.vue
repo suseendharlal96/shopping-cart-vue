@@ -50,6 +50,7 @@
             :product="product"
             @delproduct="delproduct($event)"
             @editproduct="editproduct($event)"
+            @addcart="addcart($event)"
           />
         </template>
       </div>
@@ -61,11 +62,7 @@
     <template v-if="productData && productData.paginationInfo">
       <div class="products-container">
         <template v-for="product in productData.products" :key="product._id">
-          <Product
-            :product="product"
-            @delproduct="delproduct($event)"
-            @editproduct="editproduct($event)"
-          />
+          <Product :product="product" />
         </template>
       </div>
     </template>
@@ -129,8 +126,16 @@ export default {
       isModalOpen.value = true;
       editProduct.value = product;
     };
+    const addcart = ({ product }) => {
+      console.log(product);
+      store.dispatch("cart/addCart", {
+        body: product,
+        token: authData.value.token,
+      });
+      window.alert("Added to Cart");
+    };
     const cancel = () => {
-      if (!delId.value) {
+      if (!delId.value && !editProduct.value) {
         const answer = window.confirm("Do you really want to leave?");
         if (!answer) return false;
       }
@@ -166,6 +171,7 @@ export default {
       delproduct,
       editproduct,
       editProduct,
+      addcart,
       cancel,
     };
   },

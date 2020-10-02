@@ -21,7 +21,9 @@
             Edit
           </button>
         </template>
-        <button class="cart">Add to cart</button>
+        <button class="cart" @click="$emit('addcart', { product })">
+          Add to cart
+        </button>
       </template>
     </div>
   </div>
@@ -32,7 +34,7 @@ import { computed, inject, ref } from "vue";
 
 export default {
   props: ["product"],
-  emits: ["delproduct", "editproduct", "addCart"],
+  emits: ["delproduct", "editproduct", "addcart"],
   setup(props) {
     const store = inject("$store");
 

@@ -6,6 +6,7 @@
       <button @click="router.push('/cart')">Cart</button>
       <button @click="router.push('/orders')">Orders</button>
       <button @click="logout">Logout</button>
+      <p class="email">Signed as {{ authData && authData.email }}</p>
     </template>
   </nav>
 </template>
@@ -21,8 +22,10 @@ export default {
       const answer = window.confirm("Do you really want to logout?");
       if (!answer) return false;
       store.commit("auth/logout");
+      router.push("/");
     };
     const authData = computed(() => store.getters["auth/getAuthData"]);
+
     return { router, authData, logout };
   },
 };
@@ -31,10 +34,11 @@ export default {
 <style scoped>
 .navbar {
   display: flex;
-  height: 5%;
   background-color: brown;
   justify-content: space-evenly;
+  align-items: center;
   padding: 10px 0px;
+  flex-wrap: wrap;
   margin-bottom: 2%;
 }
 button {
@@ -51,5 +55,8 @@ button:hover {
   justify-content: space-between;
   align-items: center;
   height: 5%;
+}
+.email {
+  color: #ffffff;
 }
 </style>

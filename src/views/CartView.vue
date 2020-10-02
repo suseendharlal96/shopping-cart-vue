@@ -1,7 +1,7 @@
 <template>
   <template v-if="!loading">
     <template v-if="cart && cart.length > 0">
-      <h3>Total: {{ total }}</h3>
+      <h3>Cart Total: ₹ {{ total }}</h3>
       <div class="cart-container">
         <template v-for="c in cart" :key="c._id">
           <Cart :cart="c" @changetotal="changetotal($event)" />
