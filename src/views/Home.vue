@@ -46,15 +46,37 @@
     <template v-if="productData && productData.paginationInfo">
       <div class="products-container">
         <template v-for="product in productData.products" :key="product._id">
-          <Product :product="product" @delproduct="delproduct($event)" />
+          <Product
+            :product="product"
+            @delproduct="delproduct($event)"
+            @editproduct="editproduct($event)"
+          />
         </template>
       </div>
     </template>
-    <p v-else>No data</p>
+    <p v-else>No data.Try to create one😀</p>
   </template>
-  <p v-else>Fetching data...</p>
+  <div v-else>
+    <p>Fetching data...🏄‍♂️</p>
+    <template v-if="productData && productData.paginationInfo">
+      <div class="products-container">
+        <template v-for="product in productData.products" :key="product._id">
+          <Product
+            :product="product"
+            @delproduct="delproduct($event)"
+            @editproduct="editproduct($event)"
+          />
+        </template>
+      </div>
+    </template>
+  </div>
   <template v-if="isModalOpen">
-    <product-form @cancel="cancel" :delId="delId" :prodName="prodName" />
+    <product-form
+      @cancel="cancel"
+      :delId="delId"
+      :prodName="prodName"
+      :editProduct="editProduct"
+    />
   </template>
 </template>
 
@@ -75,6 +97,7 @@ export default {
     const isModalOpen = ref(false);
     const delId = ref(null);
     const prodName = ref(null);
+    const editProduct = ref(null);
     // computed
     const productData = computed(() => store.getters["product/getProducts"]);
     const loading = computed(() => store.getters["product/getLoading"]);
@@ -101,10 +124,18 @@ export default {
       router.push(`/delete-product/${id}`);
       isModalOpen.value = true;
     };
+    const editproduct = ({ product }) => {
+      router.push(`/edit-product/${product.name}`);
+      isModalOpen.value = true;
+      editProduct.value = product;
+    };
     const cancel = () => {
       isModalOpen.value = false;
       if (delId.value) {
         delId.value = null;
+      }
+      if (editProduct.value) {
+        editProduct.value = null;
       }
       router.back();
     };
@@ -129,6 +160,8 @@ export default {
       delId,
       prodName,
       delproduct,
+      editproduct,
+      editProduct,
       cancel,
     };
   },
@@ -186,5 +219,11 @@ button:disabled {
   background-color: rgb(68, 0, 255);
   padding: 0.5rem;
   color: #ffffff;
+}
+.fetch {
+  width: 100%;
+  height: 100%;
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.5);
 }
 </style>

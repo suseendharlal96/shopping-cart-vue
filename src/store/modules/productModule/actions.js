@@ -17,18 +17,30 @@ const actions = {
     commit("loader", false);
     commit("getProducts", { productData: res.data });
   },
-  createProduct: async ({ commit }, { form, token }) => {
+  createEditProduct: async ({ commit }, { form, token }) => {
     console.log(form);
     commit("loader", true);
     try {
-      const res = await axios.post(`${baseURL}/products`, form, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      let res;
+      if (form._id) {
+        res = await axios.patch(`${baseURL}/products/${form._id}`, form, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log(res.data);
+        // commit("updateProduct", { product: res.data.createdProduct });
+      } else {
+        res = await axios.post(`${baseURL}/products`, form, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log(res.data);
+        commit("createProduct", { product: res.data.createdProduct });
+      }
       console.log(res.data);
       commit("loader", false);
-      commit("createProduct", { product: res.data.createdProduct });
     } catch (error) {
       commit("loader", false);
       console.log(error.response);

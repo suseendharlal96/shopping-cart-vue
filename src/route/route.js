@@ -14,7 +14,8 @@ const routes = [
     component: Home,
   },
   { path: "/create-product", component: Home },
-  { path: "/delete-product/:delId", component: Home },
+  { path: "/delete-product/:productId", component: Home },
+  { path: "/edit-product/:productName", component: Home },
   {
     path: "/:pathMatch(.*)*",
     redirect: "/",

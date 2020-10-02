@@ -3,24 +3,29 @@
     <div class="model-container">
       <span class="close" @click="$emit('cancel')">X</span>
       <div class="auth-form">
-        <h2 v-if="!delId">{{ "Create" }} product</h2>
+        <h2 class="heading" v-if="!delId">
+          {{ editProduct ? "Edit" : "Create" }} product
+        </h2>
         <form v-if="!delId" @submit="submitForm">
+          {{ JSON.stringify(errors, null, 4) }}
           <div>
             <label for="name" required>Name</label>
             <input
-              class="form-control"
+              :class="[errors && errors.name ? 'invalid' : '', 'form-control']"
               type="text"
               name="name"
               id="name"
               v-model.lazy.trim="form.name"
               placeholder="Product Name"
             />
+            <p v-if="errors && errors.name" class="invalid">
+              {{ errors.name }}
+            </p>
           </div>
-          <!-- <p v-if="errors && errors.email" class="invalid">{{ errors.email }}</p> -->
           <div>
             <label for="price" required>Price</label>
             <input
-              class="form-control"
+              :class="[errors && errors.price ? 'invalid' : '', 'form-control']"
               type="number"
               name="price"
               id="price"
@@ -28,13 +33,13 @@
               placeholder="Price"
             />
           </div>
-          <!-- <p v-if="errors && errors.password" class="invalid">
-        {{ errors.password }}
-      </p> -->
+          <p v-if="errors && errors.price" class="invalid">
+            {{ errors.price }}
+          </p>
           <div>
             <label for="image" required>Image url</label>
             <input
-              class="form-control"
+              :class="[errors && errors.image ? 'invalid' : '', 'form-control']"
               type="text"
               name="image"
               id="image"
@@ -42,10 +47,16 @@
               placeholder="Image URL"
             />
           </div>
+          <p v-if="errors && errors.image" class="invalid">
+            {{ errors.image }}
+          </p>
           <div>
             <label for="description" required>Description</label>
             <textarea
-              class="form-control"
+              :class="[
+                errors && errors.description ? 'invalid' : '',
+                'form-control',
+              ]"
               rows="2"
               name="description"
               id="description"
@@ -53,9 +64,9 @@
               placeholder="About product.."
             />
           </div>
-          <button class="primary" type="submit">
-            {{ loading ? "Creating.." : " Create" }}
-          </button>
+          <p v-if="errors && errors.description" class="invalid">
+            {{ errors.description }}
+          </p>
           <button
             class="secondary"
             :disabled="loading"
@@ -63,6 +74,9 @@
             @click="$emit('cancel')"
           >
             Cancel
+          </button>
+          <button class="primary" type="submit">
+            {{ editProduct ? "Edit & Save" : "Create" }}
           </button>
         </form>
         <template v-if="delId">
@@ -91,7 +105,7 @@ import { reactive, inject, computed, onMounted } from "vue";
 import { onBeforeRouteUpdate, useRouter } from "vue-router";
 import { useStore } from "vuex";
 export default {
-  props: ["delId", "prodName"],
+  props: ["delId", "prodName", "editProduct"],
   emits: ["cancel"],
   setup(props, { emit }) {
     // method 1 injected from parent component
@@ -107,18 +121,82 @@ export default {
       image: "",
       description: "",
     });
+    let errors = reactive({
+      name: "",
+      price: null,
+      image: "",
+      description: "",
+    });
+    if (props.editProduct) {
+      form = props.editProduct;
+    }
     const authData = computed(() => store.getters["auth/getAuthData"]);
     const token = authData.value
       ? authData.value.token && authData.value.token
       : null;
+    const isValid = computed(() => {
+      if (
+        form.name !== "" &&
+        form.price > 0 &&
+        form.image !== "" &&
+        form.description !== ""
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    });
     const loading = computed(() => store.getters["product/getLoading"]);
     const submitForm = (e) => {
       e.preventDefault();
+      errors = { name: "", price: null, image: "", description: "" };
       console.log(form);
       console.log(authData.value);
-      store.dispatch("product/createProduct", { form, token });
-      form = { name: "", price: null, image: "", description: "" };
-      emit("cancel");
+      console.log(isValid.value);
+      if (isValid.value) {
+        if (props.editProduct) {
+          const editForm = {
+            _id: props.editProduct._id,
+            name: props.editProduct.name,
+            price: props.editProduct.price,
+            imageurl: props.editProduct.image,
+            description: props.editProduct.description,
+          };
+          console.log("editform", form);
+          store.dispatch("product/createEditProduct", {
+            form: editForm,
+            token,
+          });
+        } else {
+          store.dispatch("product/createEditProduct", { form, token });
+        }
+        form = { name: "", price: null, image: "", description: "" };
+        emit("cancel");
+      } else {
+        console.log(1);
+        if (form.name === "") {
+          errors.name = "Must not be empty";
+        } else {
+          errors.name = "";
+        }
+        if (form.price <= 0) {
+          errors.price = "Must be valid";
+        } else {
+          errors.price = "";
+        }
+        if (form.image === "") {
+          errors.image = "Must not be empty";
+        } else {
+          errors.image = "";
+        }
+        if (form.description === "") {
+          errors.description = "Must not be empty";
+        } else {
+          errors.description = "";
+        }
+        console.log(errors);
+        console.log(form);
+      }
     };
     const deleteProduct = () => {
       store.dispatch("product/deleteProduct", { delId: props.delId, token });
@@ -137,6 +215,8 @@ export default {
       loading,
       deleteProduct,
       delId: props.delId,
+      editProduct: props.editProduct,
+      errors,
     };
   },
 };
@@ -146,7 +226,7 @@ export default {
 .model-container {
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.85);
   position: fixed;
   top: 0px;
   text-align: center;
@@ -161,6 +241,9 @@ export default {
   flex-flow: column wrap;
   justify-content: center;
   padding: 6rem 1rem;
+}
+.heading {
+  color: #ffffff;
 }
 [required]::after {
   content: "*";
@@ -188,6 +271,7 @@ textarea:not(.invalid):focus {
 }
 label {
   display: block;
+  color: #ffffff;
 }
 button {
   cursor: pointer;
@@ -223,5 +307,8 @@ button {
   width: 35px;
   background-color: #ffffff;
   border-radius: 4px;
+}
+.invalid {
+  background-color: #ff0000;
 }
 </style>
