@@ -9,6 +9,7 @@
     "axios": "^0.20.0",
     "vue": "^3.0.0-rc.1",
     "vue-router": "^4.0.0-beta.12",
+    "vue-stripe-checkout": "^3.5.11",
     "vue-toasted": "^1.1.28",
     "vuex": "^4.0.0-beta.4"
   },

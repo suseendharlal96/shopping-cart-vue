@@ -135,10 +135,10 @@ export default {
       window.alert("Added to Cart");
     };
     const cancel = () => {
-      if (!delId.value && !editProduct.value) {
-        const answer = window.confirm("Do you really want to leave?");
-        if (!answer) return false;
-      }
+      // if (!delId.value || !editProduct.value) {
+      //   const answer = window.confirm("Do you really want to leave?");
+      //   if (!answer) return false;
+      // }
       isModalOpen.value = false;
       if (delId.value) {
         delId.value = null;

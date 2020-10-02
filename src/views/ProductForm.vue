@@ -7,7 +7,6 @@
           {{ editProduct ? "Edit" : "Create" }} product
         </h2>
         <form v-if="!delId" @submit="submitForm">
-          {{ JSON.stringify(errors, null, 4) }}
           <div>
             <label for="name" required>Name</label>
             <input

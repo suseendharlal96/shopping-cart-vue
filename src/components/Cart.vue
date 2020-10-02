@@ -27,6 +27,23 @@
       </div>
       <button class="remove" @click="removeCart(mycart._id)">Remove</button>
       <button class="pay">Pay</button>
+      <!-- <StripeCheckout
+        ref="checkoutRef"
+        :name="`Product Name: ${mycart.name}`"
+        :image="mycart.image"
+        :email="authData.email"
+        panelLabel="Proceed to pay"
+        description="STRIPE-Safe and Secure Payments"
+        pk="
+          pk_test_51H54IgEH45zGy2FRW5V9EQMtqCHFnUbuxogqUbG8ENCn5GBUT6qxDeFTvfomsusc2J6aUSpzmB3UJLnLOMh2aq4t00c2Cwlhz3
+        "
+        :amount="mycart.quantity * mycart.price * 100"
+        currency="INR"
+      >
+        <template>
+          <button @click="checkout">Shut up and take my money!</button>
+        </template>
+      </StripeCheckout> -->
     </div>
   </div>
 </template>
@@ -34,6 +51,7 @@
 <script>
 import { computed, ref } from "vue";
 import { useStore } from "vuex";
+import StripeCheckout from "vue-stripe-checkout";
 
 export default {
   props: ["cart"],
@@ -65,11 +83,20 @@ export default {
       });
     };
 
+    const makepayment = (paymentToken, data, token) => {
+      console.log(paymentToken, data, token);
+    };
+
     return {
       mycart: actualCart,
       changeQuantity,
       removeCart,
+      makepayment,
+      authData,
     };
+  },
+  components: {
+    StripeCheckout,
   },
 };
 </script>
