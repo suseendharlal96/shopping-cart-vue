@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 import Auth from "../views/Auth.vue";
 import CartView from "../views/CartView.vue";
+import Orders from "../views/Orders.vue";
 
 const routes = [
   {
@@ -17,6 +18,7 @@ const routes = [
   { path: "/delete-product/:productId", component: Home },
   { path: "/edit-product/:productName", component: Home },
   { path: "/cart", component: CartView },
+  { path: "/orders", component: Orders },
   {
     path: "/:pathMatch(.*)*",
     redirect: "/",

@@ -53,7 +53,7 @@ const actions = {
   makepayment: async ({ commit }, { cart, token }) => {
     try {
       const res = await axios.post(
-        `http://localhost:5000/user/pay`,
+        `${baseURL}/user/pay`,
         { product: cart },
         {
           headers: {
