@@ -50,6 +50,23 @@ const actions = {
       console.log(e.response);
     }
   },
+  makepayment: async ({ commit }, { cart, token }) => {
+    try {
+      const res = await axios.post(
+        `http://localhost:5000/user/pay`,
+        { product: cart },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(res.data);
+      commit("removeCartItem", cart._id);
+    } catch (e) {
+      console.log(e.response);
+    }
+  },
 };
 
 export default actions;

@@ -26,7 +26,7 @@
         </span>
       </div>
       <button class="remove" @click="removeCart(mycart._id)">Remove</button>
-      <button class="pay">Pay</button>
+      <button class="pay" @click="makepayment(mycart)">Pay</button>
       <!-- <StripeCheckout
         ref="checkoutRef"
         :name="`Product Name: ${mycart.name}`"
@@ -83,8 +83,8 @@ export default {
       });
     };
 
-    const makepayment = (paymentToken, data, token) => {
-      console.log(paymentToken, data, token);
+    const makepayment = (cart) => {
+      store.dispatch('cart/makepayment',{ cart, token: authData.value.token });
     };
 
     return {
