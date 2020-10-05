@@ -8,11 +8,32 @@
     </a>
     <div :class="['nav-links', showLink ? 'active' : '']">
       <ul>
-        <li v-if="!authData" @click="navigate('/auth')">Auth</li>
-        <li @click="navigate('/')">Home</li>
+        <li
+          v-if="!authData"
+          :class="currentRoute === '/auth' ? 'active' : ''"
+          @click="navigate('/auth')"
+        >
+          SignIn
+        </li>
+        <li
+          :class="currentRoute === '/' ? 'active' : ''"
+          @click="navigate('/')"
+        >
+          Home
+        </li>
         <template v-if="authData">
-          <li @click="navigate('/cart')">Cart</li>
-          <li @click="navigate('/orders')">Orders</li>
+          <li
+            :class="currentRoute === '/cart' ? 'active' : ''"
+            @click="navigate('/cart')"
+          >
+            Cart
+          </li>
+          <li
+            :class="currentRoute === '/orders' ? 'active' : ''"
+            @click="navigate('/orders')"
+          >
+            Orders
+          </li>
           <li @click="logout">Logout</li>
           <li class="email">Signed as {{ authData && authData.email }}</li>
         </template>
@@ -23,10 +44,12 @@
 
 <script>
 import { inject, computed, ref } from "vue";
+import { useRoute } from "vue-router";
 export default {
   setup() {
     const router = inject("$router");
     const store = inject("$store");
+    const route = useRoute();
 
     const showLink = ref(false);
 
@@ -48,8 +71,17 @@ export default {
     };
 
     const authData = computed(() => store.getters["auth/getAuthData"]);
+    const currentRoute = computed(() => route.path);
 
-    return { router, authData, logout, showLink, toggle, navigate };
+    return {
+      router,
+      authData,
+      logout,
+      showLink,
+      toggle,
+      navigate,
+      currentRoute,
+    };
   },
 };
 </script>
@@ -59,7 +91,7 @@ export default {
   display: flex;
   background-color: #333;
   color: #ffffff;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   margin-bottom: 2%;
@@ -79,6 +111,14 @@ export default {
   color: white;
   padding: 1rem;
 }
+.navbar li.active {
+  background-color: #00ffb4;
+  color: #000000;
+}
+/* .navbar li.active:hover {
+  background-color: #555;
+  color: #ffffff;
+} */
 .navbar .email {
   color: #dcdf25;
 }
@@ -110,6 +150,9 @@ export default {
     display: none;
     width: 100%;
     transform: 1.5s;
+  }
+  .navbar {
+    justify-content: center;
   }
   .nav-links.active {
     width: 100%;

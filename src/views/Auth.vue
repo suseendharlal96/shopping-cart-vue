@@ -58,10 +58,10 @@
         {{
           isSignup
             ? loading
-              ? "Signingup.."
+              ? "Signing up.."
               : "Signup"
             : loading
-            ? "Signingin.."
+            ? "Signing in.."
             : "Signin"
         }}
       </button>
