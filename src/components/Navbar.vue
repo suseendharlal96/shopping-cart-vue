@@ -115,10 +115,10 @@ export default {
   background-color: #00ffb4;
   color: #000000;
 }
-/* .navbar li.active:hover {
+.navbar li.active:hover {
   background-color: #555;
   color: #ffffff;
-} */
+}
 .navbar .email {
   color: #dcdf25;
 }
