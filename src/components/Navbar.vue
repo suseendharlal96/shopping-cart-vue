@@ -149,7 +149,7 @@ export default {
   .nav-links {
     display: none;
     width: 100%;
-    transform: 1.5s;
+    transition: all 1.5s;
   }
   .navbar {
     justify-content: center;
