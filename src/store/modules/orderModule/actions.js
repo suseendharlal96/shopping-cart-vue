@@ -1,13 +1,11 @@
 import axios from "axios";
 
-import { baseURL } from "../../../baseUrl";
-
 const actions = {
   getOrders: async ({ commit }, { token }) => {
     commit("loading", true);
     commit("errors", null);
     try {
-      const res = await axios.get(`${baseURL}/user/orders`, {
+      const res = await axios.get(`${import.meta.env.VITE_baseURL}/user/orders`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

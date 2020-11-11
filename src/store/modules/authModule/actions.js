@@ -1,7 +1,5 @@
 import axios from "axios";
 
-import { baseURL } from "../../../baseUrl";
-
 const actions = {
   authenticate: async ({ commit }, { form, url }) => {
     console.log(form);
@@ -9,7 +7,7 @@ const actions = {
     commit("loading", true);
     commit("errors", null);
     try {
-      const res = await axios.post(`${baseURL}/user/${url}`, form);
+      const res = await axios.post(`${import.meta.env.VITE_baseURL}/user/${url}`, form);
       commit("authenticate", {
         authData: { ...res.data.result, token: res.data.token },
       });

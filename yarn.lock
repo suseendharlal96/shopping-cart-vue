@@ -37,6 +37,21 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
+"@braid/vue-formulate-i18n@^1.13.0":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@braid/vue-formulate-i18n/-/vue-formulate-i18n-1.13.0.tgz#20e5389c66621c2a599508b5d049aa96f7f7b049"
+  integrity sha512-cZ4OeRlTb/KWxwMbndc82s8S9wTXHNAcJnw7o682KJ5aMD8laulVTia/lqJbn7UK8/fRKC/toxcfj6ktVl7OiQ==
+
+"@braid/vue-formulate@^2.4.5":
+  version "2.4.5"
+  resolved "https://registry.yarnpkg.com/@braid/vue-formulate/-/vue-formulate-2.4.5.tgz#e52ab8b2eef8b6ae2fb246f23f8bcb68d0c17ec4"
+  integrity sha512-BsgUmhie98xk6VvEejIPrG90iyjx3YGRlp2Tr+8qPOQ6kaUGvAdQBJ5bIf68hYDV6WREBLIx3suTKVk8nkwodg==
+  dependencies:
+    "@braid/vue-formulate-i18n" "^1.13.0"
+    is-plain-object "^3.0.1"
+    is-url "^1.2.4"
+    nanoid "^2.1.11"
+
 "@nodelib/fs.scandir@2.1.3":
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.3.tgz#3a582bdb53804c6ba6d146579c46e52130cf4a3b"
@@ -822,6 +837,11 @@ execa@^4.0.1:
     signal-exit "^3.0.2"
     strip-final-newline "^2.0.0"
 
+extend@3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.2.tgz#f8b1136b4071fbd8eb140aff858b1019ec2915fa"
+  integrity sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==
+
 fast-glob@^3.1.1:
   version "3.2.4"
   resolved "https://registry.yarnpkg.com/fast-glob/-/fast-glob-3.2.4.tgz#d20aefbf99579383e7f3cc66529158c9b98554d3"
@@ -1126,6 +1146,11 @@ is-number@^7.0.0:
   resolved "https://registry.yarnpkg.com/is-number/-/is-number-7.0.0.tgz#7535345b896734d5f80c4d06c50955527a14f12b"
   integrity sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==
 
+is-plain-object@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/is-plain-object/-/is-plain-object-3.0.1.tgz#662d92d24c0aa4302407b0d45d21f2251c85f85b"
+  integrity sha512-Xnpx182SBMrr/aBik8y+GuR4U1L9FqMSojwDQwPMmxyC6bvEqly9UBCxhauBF5vNh2gwWJNX6oDV7O+OM4z34g==
+
 is-reference@^1.1.2:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/is-reference/-/is-reference-1.2.1.tgz#8b2dac0b371f4bc994fdeaba9eb542d03002d0b7"
@@ -1137,6 +1162,11 @@ is-stream@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/is-stream/-/is-stream-2.0.0.tgz#bde9c32680d6fae04129d6ac9d921ce7815f78e3"
   integrity sha512-XCoy+WlUr7d1+Z8GgSuXmpuUFC9fOhRXglJMx+dwLKTkL44Cjd4W1Z5P+BQZpr+cR93aGP4S/s7Ftw6Nd/kiEw==
+
+is-url@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/is-url/-/is-url-1.2.4.tgz#04a4df46d28c4cff3d73d01ff06abeb318a1aa52"
+  integrity sha512-ITvGim8FhRiYe4IQ5uHSkj7pVaPDrCTkNd3yq3cV7iZAcJdHTUMPMEHcqSOy9xZ9qFenQCvi+2wjH9a1nXqHww==
 
 is-wsl@^2.1.1:
   version "2.2.0"
@@ -1420,6 +1450,11 @@ mz@^2.1.0:
     any-promise "^1.0.0"
     object-assign "^4.0.1"
     thenify-all "^1.0.0"
+
+nanoid@^2.1.11:
+  version "2.1.11"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-2.1.11.tgz#ec24b8a758d591561531b4176a01e3ab4f0f0280"
+  integrity sha512-s/snB+WGm6uwi0WjsZdaVcuf3KJXlfGl2LcxgwkEwJF0D/BWzVWAZW/XY4bFaiR7s0Jk3FPvlnepg1H1b1UwlA==
 
 negotiator@0.6.2:
   version "0.6.2"
@@ -1787,6 +1822,11 @@ safe-buffer@^5.1.0:
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.2.1.tgz#1eaf9fa9bdb1fdd4ec75f58f9cdb4e6b7827eec6"
   integrity sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==
 
+scope-eval@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/scope-eval/-/scope-eval-1.0.0.tgz#e182db1a1ef26f3e79d4bf48423b25e22839f0ff"
+  integrity sha1-4YLbGh7ybz551L9IQjsl4ig58P8=
+
 selfsigned@^1.10.7:
   version "1.10.8"
   resolved "https://registry.yarnpkg.com/selfsigned/-/selfsigned-1.10.8.tgz#0d17208b7d12c33f8eac85c41835f27fc3d81a30"
@@ -2032,6 +2072,14 @@ vite@^1.0.0-rc.1:
     slash "^3.0.0"
     vue "^3.0.0-rc.5"
     ws "^7.2.3"
+
+vue-form@^4.10.3:
+  version "4.10.3"
+  resolved "https://registry.yarnpkg.com/vue-form/-/vue-form-4.10.3.tgz#0172aa86cb751cb74bb0dc268b157a8eb0af3c4f"
+  integrity sha512-qkdgmbBIz9ZgQUvU3Wx/kttqGoVtUjXCDl7X0KzWqU9gKHG9aRqVZZyC0Bb9BtP3CjAnjDYTxUVt9vRxO3RFxA==
+  dependencies:
+    extend "3.0.2"
+    scope-eval "1.0.0"
 
 vue-router@^4.0.0-beta.12:
   version "4.0.0-beta.12"
