@@ -1,5 +1,5 @@
 import { createApp } from "vue";
-import VueStripeCheckout from "vue-stripe-checkout";
+import VueForm from "vue-form";
 
 import App from "./App.vue";
 import { router } from "./route/route";
@@ -9,5 +9,5 @@ import "./index.css";
 const app = createApp(App);
 app.use(router);
 app.use(store);
-app.use(VueStripeCheckout);
+app.use(VueForm);
 app.mount("#app");

@@ -1,12 +1,10 @@
 import axios from "axios";
 
-import { baseURL } from "../../../baseUrl";
-
 const actions = {
   getProducts: async ({ commit }, { activePage, currentLimit, token }) => {
     commit("loader", true);
     const res = await axios.get(
-      `${baseURL}/products?page=${activePage}&limit=${currentLimit}`,
+      `${import.meta.env.VITE_baseURL}/products?page=${activePage}&limit=${currentLimit}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -23,7 +21,7 @@ const actions = {
     try {
       let res;
       if (form._id) {
-        res = await axios.patch(`${baseURL}/products/${form._id}`, form, {
+        res = await axios.patch(`${import.meta.env.VITE_baseURL}/products/${form._id}`, form, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -31,7 +29,7 @@ const actions = {
         console.log(res.data);
         // commit("updateProduct", { product: res.data.createdProduct });
       } else {
-        res = await axios.post(`${baseURL}/products`, form, {
+        res = await axios.post(`${import.meta.env.VITE_baseURL}/products`, form, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -52,7 +50,7 @@ const actions = {
     try {
       const res = await axios({
         method: "delete",
-        url: `${baseURL}/products/${delId}`,
+        url: `${import.meta.env.VITE_baseURL}/products/${delId}`,
         data: { delId },
         headers: {
           Authorization: `Bearer ${token}`,

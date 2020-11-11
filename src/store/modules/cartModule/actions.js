@@ -1,13 +1,11 @@
 import axios from "axios";
 
-import { baseURL } from "../../../baseUrl";
-
 const actions = {
   getCart: async ({ commit }, { userId, token }) => {
     commit("loading", true);
     console.log(userId);
     try {
-      const res = await axios.get(`${baseURL}/user/getCart/${userId}`, {
+      const res = await axios.get(`${import.meta.env.VITE_baseURL}/user/getCart/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -22,7 +20,7 @@ const actions = {
   addCart: async (_, { body, token }) => {
     console.log(body);
     try {
-      const res = await axios.post(`${baseURL}/user/cart`, body, {
+      const res = await axios.post(`${import.meta.env.VITE_baseURL}/user/cart`, body, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -36,7 +34,7 @@ const actions = {
     console.log(productId);
     try {
       const res = await axios.post(
-        `${baseURL}/user/removeCartItem`,
+        `${import.meta.env.VITE_baseURL}/user/removeCartItem`,
         { productId },
         {
           headers: {
@@ -53,7 +51,7 @@ const actions = {
   makepayment: async ({ commit }, { cart, token }) => {
     try {
       const res = await axios.post(
-        `${baseURL}/user/pay`,
+        `${import.meta.env.VITE_baseURL}/user/pay`,
         { product: cart },
         {
           headers: {
